@@ -3,7 +3,7 @@
 import { computed } from 'vue'
 
 type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'linkColor' | 'linkGray' | 'destructive';
-type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2';
+type ButtonSize = 'medium' | 'mediumLink' | 'large' | 'largeLink' | 'xl' | 'xlLink' | 'xl2' | 'xl2Link';
 
 const props = defineProps({
   hierarchy: {
@@ -12,7 +12,7 @@ const props = defineProps({
     required: false,
   },
   size: {
-    type: String as()=> ButtonSize,
+    type: String as ()=> ButtonSize,
     default: 'medium',
     required: false,
   },
@@ -27,9 +27,9 @@ const buttonClassesHierarchy = computed(()=>{
     primary: 'button__field--primary',
     secondary: 'button__field--secondary',
     tertiary: 'button__field--tertiary',
-    linkColor: 'bg-green-50 border-green-200 text-green-600',
+    linkColor: 'button__field--linkColor',
     linkGray: 'bg-indigo-50 border-indigo-200 text-indigo-600',
-    destructive: 'bg-indigo-50 border-indigo-200 text-indigo-600',
+    destructive: 'button__field--destructive',
   }
   return `${buttonHierarchy[props.hierarchy] || ''}`
 })
@@ -37,9 +37,13 @@ const buttonClassesHierarchy = computed(()=>{
 const buttonClassesSizes = computed(()=>{
   const buttonSizes = {
     medium: 'button__field--medium',
+    mediumLink: 'button__field--medium--link',
     large: 'button__field--large',
+    largeLink: 'button__field--large--link',
     xl: 'button__field--xl',
+    xlLink: 'button__field--xl--link',
     xl2: 'button__field--xl2',
+    xl2Link: 'button__field--xl2--link',
   }
   return `${buttonSizes[props.size] || ''}`
 })
@@ -48,7 +52,7 @@ const buttonClasses = computed(()=>{
   return buttonClassesHierarchy.value +' '+ buttonClassesSizes.value
 })
 const iconClasses = computed(()=>{
-  if (props.size === 'large') {
+  if (props.size === 'large' || props.size === 'largeLink') {
     return 'button__field--icon button__field--icon--left'
   } else if (props.size === 'xl') {
     return 'button__field--icon button__field--icon--right'
@@ -106,20 +110,45 @@ button {
   border-radius: 0;
   box-shadow: none;
 }
+
+.button__field--linkColor {
+  color: #4338ca;
+  background-color: transparent;
+}
+
+.button__field--destructive {
+  color: #ffffff;
+  background-color: #dc2626;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
+}
+
 .button__field--medium {
   height:40px;
   width:107px;
   font-size: 14px;
   line-height: 20px;
 }
+
+.button__field--medium--link {
+  font-size: 14px;
+}
+
 .button__field--large {
   height:44px;
   width:148px;
   padding-left: 32px;
   font-size: 16px;
   line-height: 24px;
-
 }
+
+.button__field--large--link {
+  width:148px;
+  height:40px;
+  padding-left: 32px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
 .button__field--xl {
   height:48px;
   width:156px;
@@ -128,12 +157,19 @@ button {
   line-height: 24px;
 }
 
+.button__field--xl--link {
+  font-size: 16px;
+}
+
 .button__field--xl2 {
   height:60px;
   width:148px;
   padding: 16px 24px;
   font-size: 18px;
   line-height: 28px;
+}
+.button__field--xl2--link {
+  font-size: 18px;
 }
 
 .button__field--iconOnly {
