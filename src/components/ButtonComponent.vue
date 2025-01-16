@@ -26,7 +26,7 @@ const buttonClassesHierarchy = computed(()=>{
   const buttonHierarchy = {
     primary: 'button__field--primary',
     secondary: 'button__field--secondary',
-    tertiary: 'bg-amber-50 border-amber-200 text-amber-600',
+    tertiary: 'button__field--tertiary',
     linkColor: 'bg-green-50 border-green-200 text-green-600',
     linkGray: 'bg-indigo-50 border-indigo-200 text-indigo-600',
     destructive: 'bg-indigo-50 border-indigo-200 text-indigo-600',
@@ -81,12 +81,12 @@ button {
   font-weight: 500;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
   cursor: pointer;
 }
 .button__field--primary {
   color: #ffffff;
   background-color: #4338CA;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
 }
 
 .button__field--primary:active {
@@ -96,7 +96,15 @@ button {
 .button__field--secondary {
   color: #171717;
   background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
+}
 
+.button__field--tertiary {
+  color: #4338ca;
+  background-color: #ffffff;
+  border:none;
+  border-radius: 0;
+  box-shadow: none;
 }
 .button__field--medium {
   height:40px;
@@ -136,7 +144,6 @@ button {
   bottom:0;
   height:56px;
   width:56px;
-  border-radius: 4px;
   cursor: pointer;
 }
 .svg-wrapper{
