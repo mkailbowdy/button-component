@@ -8,11 +8,13 @@ type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2';
 const props = defineProps({
   hierarchy: {
     type: String as ()=> ButtonHierarchy,
-    required: true,
+    default: 'primary',
+    required: false,
   },
   size: {
     type: String as()=> ButtonSize,
-    required: true,
+    default: 'medium',
+    required: false,
   },
   iconOnly: {
     type: Boolean,
@@ -23,7 +25,7 @@ const props = defineProps({
 const buttonClassesHierarchy = computed(()=>{
   const buttonHierarchy = {
     primary: 'button__field--primary',
-    secondary: 'bg-red-50 border-red-200 text-red-600',
+    secondary: 'button__field--secondary',
     tertiary: 'bg-amber-50 border-amber-200 text-amber-600',
     linkColor: 'bg-green-50 border-green-200 text-green-600',
     linkGray: 'bg-indigo-50 border-indigo-200 text-indigo-600',
@@ -50,10 +52,9 @@ const iconClasses = computed(()=>{
     return 'button__field--icon button__field--icon--left'
   } else if (props.size === 'xl') {
     return 'button__field--icon button__field--icon--right'
-  } else if (props.size === 'xl2') {
+  } else {
     return 'button__field--icon button__field--icon--none'
   }
-  return ''
 })
 </script>
 <template>
@@ -64,10 +65,9 @@ const iconClasses = computed(()=>{
     </div>
   </div>
   <div v-else>
-    <div class="button__field--iconOnly" ref="icon">
+    <div class="button__field--iconOnly" :class="buttonClassesHierarchy" ref="icon">
       <div class="svg-wrapper">
         <slot name="svg"></slot>
-
       </div>
     </div>
   </div>
@@ -85,12 +85,22 @@ button {
   cursor: pointer;
 }
 .button__field--primary {
-  color:#ffffff;
+  color: #ffffff;
   background-color: #4338CA;
-  fill: #ffffff;
+}
+
+.button__field--primary:active {
+  background-color: #3C32B5;
+}
+
+.button__field--secondary {
+  color: #171717;
+  background-color: #ffffff;
+
 }
 .button__field--medium {
-  padding: 10px 14px;
+  height:40px;
+  width:107px;
   font-size: 14px;
   line-height: 20px;
 }
@@ -100,6 +110,7 @@ button {
   padding-left: 32px;
   font-size: 16px;
   line-height: 24px;
+
 }
 .button__field--xl {
   height:48px;
@@ -125,8 +136,8 @@ button {
   bottom:0;
   height:56px;
   width:56px;
-  background-color: #4338CA;
   border-radius: 4px;
+  cursor: pointer;
 }
 .svg-wrapper{
   height:24px;
@@ -142,11 +153,13 @@ button {
 
 .button__field--icon--left {
   padding-left:18px;
+  cursor: pointer;
 }
 
 .button__field--icon--right {
   right:0;
   padding-right:18px;
+  cursor: pointer;
 }
 .button__field--icon--none {
   display:none;
