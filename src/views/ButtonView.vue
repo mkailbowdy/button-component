@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import ButtonComponent from '@/components/ButtonComponent.vue'
-import { ref } from 'vue'
 
-// Optional: add your own svg for the icon
-// const svg = ref('')
-// svg.value = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.0508 12.361L7.39395 18.0179L5.97974 16.6037L11.6366 10.9468L6.68684 5.99707H18.0006V17.3108L13.0508 12.361Z"></path></svg>'
 </script>
 <template>
   <div class="container">
     <div class="button-variants">
-          <ButtonComponent hierarchy="primary" size="xl2" icon-only>Button CTA</ButtonComponent>
+          <ButtonComponent hierarchy="primary" size="xl" icon-only>
+            Button CTA
+            <template #svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"></path></svg>
+            </template>
+          </ButtonComponent>
     </div>
   </div>
 </template>

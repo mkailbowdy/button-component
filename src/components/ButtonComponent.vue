@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 
 type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'linkColor' | 'linkGray' | 'destructive';
 type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2';
@@ -18,19 +18,6 @@ const props = defineProps({
     type: Boolean,
     required: false
   },
-  svg: {
-    type: String,
-    required: false
-  }
-})
-
-const icon = ref<HTMLElement | null>(null)
-
-onMounted(()=>{
-  console.log(icon.value)
-  if (props.svg && icon.value !== null) {
-    icon.value.innerHTML = props.svg
-  }
 })
 
 const buttonClassesHierarchy = computed(()=>{
@@ -73,12 +60,15 @@ const iconClasses = computed(()=>{
   <div v-if="!iconOnly" class="button__field">
     <button :class="buttonClasses"><slot /></button>
     <div :class="iconClasses">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="buttonClassesHierarchy"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"></path></svg>
+      <slot name="svg"></slot>
     </div>
   </div>
   <div v-else>
     <div class="button__field--iconOnly" ref="icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :class="buttonClassesHierarchy"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"></path></svg>
+      <div class="svg-wrapper">
+        <slot name="svg"></slot>
+
+      </div>
     </div>
   </div>
 </template>
@@ -138,7 +128,7 @@ button {
   background-color: #4338CA;
   border-radius: 4px;
 }
-.button__field--iconOnly svg{
+.svg-wrapper{
   height:24px;
   width:24px;
 }
