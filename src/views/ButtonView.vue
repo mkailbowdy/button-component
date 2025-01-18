@@ -4,7 +4,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 </script>
 <template>
   <div class="flex">
-    <ButtonComponent hierarchy="primary" size="large" icon-left>
+    <ButtonComponent size="iconSize" icon-only>
       Click Me
     </ButtonComponent>
   </div>
