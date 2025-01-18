@@ -1,211 +1,174 @@
 <script setup lang="ts">
-
 import { computed } from 'vue'
 
-type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'linkColor' | 'linkGray' | 'destructive';
-type ButtonSize = 'medium' | 'mediumLink' | 'large' | 'largeLink' | 'xl' | 'xlLink' | 'xl2' | 'xl2Link';
+type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'destructive';
+type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2';
 
-const props = defineProps({
-  hierarchy: {
-    type: String as ()=> ButtonHierarchy,
-    default: 'primary',
-    required: false,
-  },
-  size: {
-    type: String as ()=> ButtonSize,
-    default: 'medium',
-    required: false,
-  },
-  iconOnly: {
-    type: Boolean,
-    required: false
-  },
+interface ButtonProps {
+  hierarchy?: ButtonHierarchy;
+  size?: ButtonSize;
+  iconLeft?: boolean;
+  iconRight?: boolean;
+  iconOnly?: boolean;
+}
+
+const props = withDefaults(defineProps<ButtonProps>(), {
+  hierarchy: 'primary',
+  size: 'medium',
+  iconLeft: false,
+  iconRight: false,
+  iconOnly: false,
 })
 
-const buttonClassesHierarchy = computed(()=>{
-  const buttonHierarchy = {
-    primary: 'button__field--primary',
-    secondary: 'button__field--secondary',
-    tertiary: 'button__field--tertiary',
-    linkColor: 'button__field--linkColor',
-    linkGray: 'bg-indigo-50 border-indigo-200 text-indigo-600',
-    destructive: 'button__field--destructive',
-  }
-  return `${buttonHierarchy[props.hierarchy] || ''}`
-})
-
-const buttonClassesSizes = computed(()=>{
-  const buttonSizes = {
-    medium: 'button__field--medium',
-    mediumLink: 'button__field--medium--link',
-    large: 'button__field--large',
-    largeLink: 'button__field--large--link',
-    xl: 'button__field--xl',
-    xlLink: 'button__field--xl--link',
-    xl2: 'button__field--xl2',
-    xl2Link: 'button__field--xl2--link',
-  }
-  return `${buttonSizes[props.size] || ''}`
-})
-
-const buttonClasses = computed(()=>{
-  return buttonClassesHierarchy.value +' '+ buttonClassesSizes.value
-})
-const iconClasses = computed(()=>{
-  if (props.size === 'large' || props.size === 'largeLink') {
-    return 'button__field--icon button__field--icon--left'
-  } else if (props.size === 'xl') {
-    return 'button__field--icon button__field--icon--right'
-  } else {
-    return 'button__field--icon button__field--icon--none'
+// Dynamic Object Syntax for Classes
+const buttonClasses = computed(() => {
+  return {
+    'button': true,
+    [`button--${props.hierarchy}`]: true,
+    [`button--${props.size}`]: true,
+    'button--icon-only': props.iconOnly,
   }
 })
+
 </script>
+
 <template>
-  <div v-if="!iconOnly" class="button__field">
-    <button :class="buttonClasses"><slot /></button>
-    <div :class="iconClasses">
-      <slot name="svg"></slot>
-    </div>
-  </div>
-  <div v-else>
-    <div class="button__field--iconOnly" :class="buttonClassesHierarchy" ref="icon">
-      <div class="svg-wrapper">
-        <slot name="svg"></slot>
-      </div>
-    </div>
-  </div>
+  <button v-if="!iconOnly" :class="buttonClasses">
+    <span class="button__content">
+      <span v-if="iconLeft" class="button__icon">
+        <slot name="icon-left">
+<!--          this is the default svg-->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z" />
+          </svg>
+        </slot>
+      </span>
+      <slot />
+      <span v-if="iconRight" class="button__icon">
+        <slot name="icon-right">
+<!--          this is the default svg-->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z" />
+          </svg>
+        </slot>
+      </span>
+    </span>
+  </button>
+  <button class="button button--primary button--icon--size" v-else>
+    <span class="button__icon button__icon--only">
+      <slot name="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z" />
+          </svg>
+      </slot>
+    </span>
+  </button>
 </template>
+
 <style scoped>
-.button__field {
-  position: relative;
-}
-button {
-  font-family: inherit;
-  font-weight: 500;
-  border: none;
+.button {
+  /*For example, you might want a button with an icon and text aligned side by side while still flowing inline with text in surrounding elements.*/
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 4px;
+  font-weight: 500;
   cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
 }
-.button__field--primary {
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+/* Content wrapper */
+.button__content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Icon styling */
+.button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.button__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.button__icon--only {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hierarchy variants */
+.button--primary {
+  background-color: #4338ca;
   color: #ffffff;
-  background-color: #4338CA;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
 }
 
-.button__field--primary:active {
-  background-color: #3C32B5;
-}
-
-.button__field--secondary {
+.button--secondary {
+  background-color: #ffffff;
   color: #171717;
-  background-color: #ffffff;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
+  border: 1px solid #e5e7eb;
 }
 
-.button__field--tertiary {
+.button--tertiary {
+  background-color: transparent;
   color: #4338ca;
-  background-color: #ffffff;
-  border:none;
-  border-radius: 0;
   box-shadow: none;
 }
 
-.button__field--linkColor {
-  color: #4338ca;
-  background-color: transparent;
-}
-
-.button__field--destructive {
+.button--destructive {
+  background-color: #ef4444;
   color: #ffffff;
-  background-color: #dc2626;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.10);
 }
 
-.button__field--medium {
-  height:40px;
-  width:107px;
+/* Size variants */
+.button--medium {
+  min-width: 107px;
+  height: 40px;
   font-size: 14px;
   line-height: 20px;
 }
 
-.button__field--medium--link {
-  font-size: 14px;
-}
-
-.button__field--large {
-  height:44px;
-  width:148px;
-  padding-left: 32px;
+.button--large {
+  min-width: 148px;
+  height: 44px;
   font-size: 16px;
   line-height: 24px;
 }
 
-.button__field--large--link {
-  width:148px;
-  height:40px;
-  padding-left: 32px;
+.button--xl {
+  min-width: 156px;
+  height: 48px;
   font-size: 16px;
   line-height: 24px;
 }
 
-.button__field--xl {
-  height:48px;
-  width:156px;
-  padding-right: 32px;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.button__field--xl--link {
-  font-size: 16px;
-}
-
-.button__field--xl2 {
-  height:60px;
-  width:148px;
-  padding: 16px 24px;
+.button--xl2 {
+  min-width: 148px;
+  height: 60px;
   font-size: 18px;
   line-height: 28px;
 }
-.button__field--xl2--link {
-  font-size: 18px;
-}
 
-.button__field--iconOnly {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  top:0;
-  bottom:0;
-  height:56px;
-  width:56px;
-  cursor: pointer;
-}
-.svg-wrapper{
-  height:24px;
-  width:24px;
-}
-
-.button__field--icon {
-  display:flex;
-  position:absolute;
-  top:14px;
-  bottom:14px;
-}
-
-.button__field--icon--left {
-  padding-left:18px;
-  cursor: pointer;
-}
-
-.button__field--icon--right {
-  right:0;
-  padding-right:18px;
-  cursor: pointer;
-}
-.button__field--icon--none {
-  display:none;
+.button--icon--size {
+  width: 56px;
+  height: 56px;
 }
 
 </style>
