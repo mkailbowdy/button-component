@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'destructive';
-type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2' | 'iconSize';
+type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2' | 'iconSize' | 'linkSize';
 
 interface ButtonProps {
   hierarchy?: ButtonHierarchy;
@@ -14,7 +14,7 @@ interface ButtonProps {
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   hierarchy: 'primary',
-  size: 'medium',
+  size: 'large',
   iconLeft: false,
   iconRight: false,
   iconOnly: false,
@@ -168,4 +168,7 @@ const buttonClasses = computed(() => {
   height: 56px;
 }
 
+.button--linkSize {
+  /* No sizing. Just the size of the content */
+}
 </style>
