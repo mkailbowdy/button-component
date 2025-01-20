@@ -47,6 +47,7 @@ image{
     'avatar name'
     'comment comment'
   ;
+  gap: 1em;
   color: #525252;
   padding: 24px;
   width: 340px;
@@ -58,16 +59,12 @@ image{
   grid-area: avatar;
   align-self: center;
   display: flex;
-  position: absolute;
-  top: 16px;
-  left: 8px;
 }
 .avatar img{
   height: 48px;
   width: 48px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid red;
 }
 .name{
   grid-area: name;
@@ -75,9 +72,7 @@ image{
   flex-direction: column;
   justify-content: center;
   min-height: 48px; /* Match avatar height */
-  box-sizing: border-box; /* Include padding in height calculation */
-  border-radius: 8px;
-  padding-left: 16px;
+
 }
 .name h3{
   color: #171717;
@@ -85,8 +80,5 @@ image{
 .comment {
   grid-area: comment;
   border-radius: 8px;
-  padding: 16px 0;
-  padding-left: 8px;
-  background-color: #41D3BD;
 }
 </style>
