@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'destructive';
+type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'tertiaryPlain' | 'destructive';
 type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2' | 'iconSize' | 'linkSize';
 
 interface ButtonProps {
@@ -126,6 +126,12 @@ const buttonClasses = computed(() => {
 .button--tertiary {
   background-color: transparent;
   color: #4338ca;
+  box-shadow: none;
+}
+
+.button--tertiaryPlain {
+  background-color: transparent;
+  color: #171717;
   box-shadow: none;
 }
 
