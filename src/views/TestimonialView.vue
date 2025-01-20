@@ -13,6 +13,10 @@ import TestimonialComponent from '@/components/TestimonialComponent.vue'
 
 <style scoped>
 main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
   min-width: 800px;
   margin: 0 auto;
