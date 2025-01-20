@@ -14,6 +14,8 @@ import TestimonialComponent from '@/components/TestimonialComponent.vue'
 <style scoped>
 main {
   min-height: 100vh;
+  min-width: 800px;
+  margin: 0 auto;
   background-color: #e5e7eb;
 }
 </style>

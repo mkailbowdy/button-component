@@ -12,7 +12,7 @@ const props = defineProps({
   },
   img: {
     type: String,
-    default: 'https://picsum.photos/200',
+    default: '/src/assets/profile-thumbnail.png',
     required: false,
   }
 })
@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
 <div class="container">
   <div class="avatar">
-    <img :src=props.img alt="author's profile avatar" />
+    <img :src="props.img" alt="avatar picture"/>
   </div>
   <div class="name">
     <h3>{{props.author}}</h3>
