@@ -6,7 +6,7 @@ import TestimonialComponent from '@/components/TestimonialComponent.vue'
 <template>
 <main>
   <TestimonialComponent>
-    This website helped me save the garden.
+    I've been searching for high-quality abstract images for my design projects, and I'm thrilled to have found this platform. The variety and depth of creativity are astounding!
   </TestimonialComponent>
 </main>
 </template>
