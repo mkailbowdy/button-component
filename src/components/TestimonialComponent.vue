@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
 <div class="container">
   <div class="avatar">
-    <img :src="props.img" alt="avatar picture"/>
+    <img src="../profile-thumbnail.png" alt="avatar picture"/>
   </div>
   <div class="name">
     <h3>{{props.author}}</h3>
