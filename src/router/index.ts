@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ButtonView from '@/views/ButtonView.vue'
 import TextAreaView from '@/views/TextAreaView.vue'
+import InputView from '@/views/InputView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
       path: '/textarea',
       name: 'textarea',
       component: TextAreaView,
+    },
+    {
+      path: '/input',
+      name: 'input',
+      component: InputView,
     }
   ],
 })
