@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary' | 'tertiaryPlain' | 'destructive';
+type ButtonHierarchy = '' | 'primary' | 'secondary' | 'tertiary' | 'tertiaryPlain' | 'destructive';
 type ButtonSize = 'medium' | 'large' | 'xl' | 'xl2' | 'iconSize' | 'linkSize';
 
 interface ButtonProps {
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  hierarchy: 'primary',
+  hierarchy: '',
   size: 'large',
   iconLeft: false,
   iconRight: false,
@@ -33,7 +33,7 @@ const buttonClasses = computed(() => {
 </script>
 
 <template>
-  <button :class="buttonClasses">
+  <button :class="buttonClasses" v-bind="$attrs">
     <span  v-if="!iconOnly" class="button__content">
       <span v-if="iconLeft" class="button__icon">
         <slot name="icon-left">

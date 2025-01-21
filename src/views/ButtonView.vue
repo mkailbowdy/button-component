@@ -6,22 +6,22 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
   <main>
     <section>
     <div class="variation">
-      <ButtonComponent size="medium">
+      <ButtonComponent size="medium" hierarchy="primary">
         Button CTA
       </ButtonComponent>
-      <ButtonComponent size="large" icon-left>
+      <ButtonComponent size="large" icon-left hierarchy="primary">
         Button CTA
       </ButtonComponent>
-      <ButtonComponent size="xl" icon-right>
+      <ButtonComponent size="xl" icon-right hierarchy="primary">
         Button CTA
       </ButtonComponent>
-      <ButtonComponent size="xl2">
+      <ButtonComponent size="xl2" hierarchy="primary">
         Button CTA
       </ButtonComponent>
-      <ButtonComponent icon-only size="iconSize"/>
+      <ButtonComponent icon-only size="iconSize" hierarchy="primary" />
     </div>
     <div class="variation">
-      <ButtonComponent size="medium" hierarchy="secondary">
+      <ButtonComponent size="medium" hierarchy="secondary" class="bg-green-500">
         Button CTA
       </ButtonComponent>
       <ButtonComponent size="large" icon-left hierarchy="secondary">
@@ -122,5 +122,8 @@ section {
   display: flex;
   gap: 16px;
   align-items: center;
+}
+.green {
+  background-color: green;
 }
 </style>
