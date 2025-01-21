@@ -2,39 +2,47 @@
 import { computed, ref } from 'vue'
 import { useAttrs } from 'vue'
 
+const props = defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  error: {
+    type: Boolean,
+    default: false,
+    required: false,
+  }
+})
 defineOptions({
   inheritAttrs: false
 })
 const attrs = useAttrs()
+const maxLength = computed(()=>{
+  const length = attrs.maxlength
+  return typeof length === 'string' ? parseInt(length) : 0
+})
 
 const text = ref('');
 const textLength = computed(()=>{
   return text.value.length
 })
-const maxLength = computed(()=>{
-  return attrs.maxlength
-})
-const maxLengthValue = () =>{
-  if (typeof maxLength.value === 'string') {
-    return parseInt(maxLength.value)
-  }
-  return 0;
-}
 
-const color = computed(()=>{
+const warningColor = computed(()=>{
   return {
-    'text-yellow-500': textLength.value >= maxLengthValue() / 2 && textLength.value < maxLengthValue(),
-    'text-red-500': textLength.value === maxLengthValue(),
+    'text-yellow-500': textLength.value >= maxLength.value / 2 && textLength.value < maxLength.value,
+    'text-red-500': textLength.value === maxLength.value,
   }
 })
-
 
 </script>
 <template>
   <div class="textarea__field">
-    <label>Description</label>
-    <textarea v-bind="attrs" v-model="text"></textarea>
-    <small><span :class="color">{{textLength}}</span>/{{maxLength}}</small>
+    <label for="description-field">{{props.label}}</label>
+    <textarea v-bind="attrs" v-model="text" id="description-field" aria-describedby="description-error"></textarea>
+    <div class="flex">
+      <span v-if="props.error" class="text-red-500">This field is required</span>
+      <small v-else class="ml-auto"><span :class="warningColor">{{textLength}}</span>/{{maxLength}}</small>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -53,16 +61,19 @@ label {
 small {
   align-self: end;
 }
+
 textarea {
   padding: 12px 14px;
   background-color: #fafafa;
-  border-radius: 8px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #e5e5e5;
   resize: none;
+  border-radius: 8px;
 }
+
 textarea::placeholder {
   color: #737373;
+}
+textarea:focus {
+  box-shadow: 2px 2px 2px lightgray;
+  outline: none;
 }
 </style>
