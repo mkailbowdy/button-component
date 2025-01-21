@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ButtonView from '@/views/ButtonView.vue'
+import TextAreaView from '@/views/TextAreaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/BlogCardView.vue'),
     },
+    {
+      path: '/textarea',
+      name: 'textarea',
+      component: TextAreaView,
+    }
   ],
 })
 
