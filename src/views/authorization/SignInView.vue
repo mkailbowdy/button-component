@@ -14,8 +14,9 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
       </template>
     </InputComponent>
     <InputComponent required type="password" id="password" label="Password" class="border border-gray-300" :eyeIcon="true"/>
-    <ButtonComponent>Submit</ButtonComponent>
+    <ButtonComponent class="bg-indigo-700 text-white" size="medium">Submit</ButtonComponent>
   </form>
+  <span class="redirect">Don’t have an account? <a href="#" class="text-indigo-700">Sign up</a></span>
 </main>
 </template>
 
@@ -34,7 +35,7 @@ main {
 form{
   display:flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 h1 {
@@ -42,6 +43,12 @@ h1 {
   font-size: 30px;
   line-height: 36px;
   color: #171717;
+}
+
+.redirect {
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 </style>
