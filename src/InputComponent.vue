@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue'
+import { ref, useAttrs } from 'vue'
 
 defineOptions({
   inheritAttrs: false
@@ -7,38 +7,73 @@ defineOptions({
 
 const attrs = useAttrs()
 const props = defineProps({
-  icon: {
+  eyeIcon: {
     type: Boolean,
-    default: true,
+    default: false,
     required: false,
+  },
+  customIcon:{
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  id: {
+    type: String,
+    required: false,
+  },
+  label: {
+    type: String,
+    required: false,
+  },
+  type: {
+    type: String,
+    default: 'text',
+    required: true,
   }
 })
 
+const inputElement = ref<HTMLInputElement | null>(null)
+
+const passwordHidden = ref(true)
+const togglePassword = () => {
+  if (inputElement.value?.type === 'text') {
+    inputElement.value.setAttribute('type', 'password')
+    passwordHidden.value = true
+  } else {
+    inputElement.value?.setAttribute('type', 'text')
+    passwordHidden.value = false
+  }
+}
+
 </script>
 <template>
-  <div class="input__field">
-    <input v-bind="attrs">
-    <div v-if="props.icon" class="input__field__icon input__field__icon--right">
-      <slot name="icon-right">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667ZM8.00004 13.3334C10.9456 13.3334 13.3334 10.9456 13.3334 8.00004C13.3334 5.05452 10.9456 2.66671 8.00004 2.66671C5.05452 2.66671 2.66671 5.05452 2.66671 8.00004C2.66671 10.9456 5.05452 13.3334 8.00004 13.3334ZM7.33337 10H8.66671V11.3334H7.33337V10ZM8.66671 8.90344V9.33337H7.33337V8.33337C7.33337 7.96517 7.63184 7.66671 8.00004 7.66671C8.55231 7.66671 9.00004 7.21897 9.00004 6.66671C9.00004 6.11442 8.55231 5.66671 8.00004 5.66671C7.51491 5.66671 7.11044 6.01219 7.01924 6.47055L5.71158 6.20901C5.92429 5.1395 6.86804 4.33337 8.00004 4.33337C9.28871 4.33337 10.3334 5.37804 10.3334 6.66671C10.3334 7.72371 9.63051 8.61657 8.66671 8.90344Z"
-            fill="currentColor" />
-        </svg>
-      </slot>
+
+  <div class="input">
+    <label :for="props.id">{{props.label}}</label>
+    <div class="input__field">
+      <input v-bind="attrs" :id="props.id" :type="props.type" ref="inputElement">
+      <div v-if="props.eyeIcon" class="input__field__icon input__field__icon--right">
+        <button v-if="passwordHidden" @click.prevent="togglePassword">
+          <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.34268 18.7819L7.41083 18.2642L8.1983 15.3254C7.00919 14.8874 5.91661 14.2498 4.96116 13.4534L2.80783 15.6067L1.39362 14.1925L3.54695 12.0392C2.35581 10.6103 1.52014 8.87466 1.17578 6.96818L3.14386 6.61035C3.90289 10.8126 7.57931 14.0001 12.0002 14.0001C16.4211 14.0001 20.0976 10.8126 20.8566 6.61035L22.8247 6.96818C22.4803 8.87466 21.6446 10.6103 20.4535 12.0392L22.6068 14.1925L21.1926 15.6067L19.0393 13.4534C18.0838 14.2498 16.9912 14.8874 15.8021 15.3254L16.5896 18.2642L14.6578 18.7819L13.87 15.8418C13.2623 15.9459 12.6376 16.0001 12.0002 16.0001C11.3629 16.0001 10.7381 15.9459 10.1305 15.8418L9.34268 18.7819Z"></path></svg>
+        </button>
+        <button v-if="!passwordHidden" @click.prevent="togglePassword">
+          <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z"></path></svg>
+        </button>
+      </div>
+      <div v-if="props.customIcon" class="input__field__icon input__field__icon--right">
+        <slot name="custom-icon" />
+      </div>
     </div>
   </div>
-
 </template>
 <style scoped>
-
-.input__field{
-  position:relative;
+.input{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.input__field {
+  position: relative;
 }
 
 .input__field input{
@@ -50,7 +85,7 @@ const props = defineProps({
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  width: 100%;
+  width:100%;
 }
 
 .input__field input::placeholder {
@@ -69,7 +104,6 @@ const props = defineProps({
 
 .input__field__icon {
   position: absolute;
-  pointer-events: none;
   top: 0;
   bottom: 0;
   display: flex;
@@ -81,5 +115,6 @@ const props = defineProps({
   right: 0;
   padding-right: 14px;
 }
+
 
 </style>
