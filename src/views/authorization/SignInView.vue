@@ -63,9 +63,9 @@ section{
     display: flex;
   }
   .hero img {
-    width: 592px; /* Matches the `.hero` container width */
-    height: 672px; /* Ensures the image matches the height */
-    object-fit: cover; /* Prevents distortion */
+    width: 592px;
+    height: 672px;
+    object-fit: cover;
     border-radius: 3px;
   }
 }
