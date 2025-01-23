@@ -23,21 +23,3 @@ const notificationClasses = computed(() => {
     <span><slot /></span>
   </div>
 </template>
-<style scoped>
-.toast__field--Success {
-  background-color:#f0fdf4;
-  color: #15803d;
-}
-.toast__field--Warning {
-  background-color:#fffbeb;
-  color: #b45309;
-}
-.toast__field--Error {
-  background-color: #fef2f2;
-  color: #dc2626;
-}
-.toast__field--Info {
-  background-color: #f9fafb;
-  color: #525252;
-}
-</style>
