@@ -10,6 +10,7 @@ interface ButtonProps {
   iconLeft?: boolean;
   iconRight?: boolean;
   iconOnly?: boolean;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   iconLeft: false,
   iconRight: false,
   iconOnly: false,
+  disabled: false,
 })
 
 // Dynamic Object Syntax for Classes
@@ -33,7 +35,7 @@ const buttonClasses = computed(() => {
 </script>
 
 <template>
-  <button :class="buttonClasses" v-bind="$attrs" type="submit">
+  <button v-if="!props.disabled" :class="buttonClasses" v-bind="$attrs" type="submit">
     <span  v-if="!iconOnly" class="button__content">
       <span v-if="iconLeft" class="button__icon">
         <slot name="icon-left">
@@ -61,6 +63,7 @@ const buttonClasses = computed(() => {
       </slot>
     </span>
   </button>
+  <button v-else disabled :class="buttonClasses" class="bg-gray-500">Please Wait...</button>
 </template>
 
 <style scoped>
