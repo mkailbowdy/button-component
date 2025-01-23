@@ -2,21 +2,25 @@
 import InputComponent from '@/InputComponent.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { ref } from 'vue'
+import ToastComponent from '@/components/ToastComponent.vue'
 
 
 const username = ref('')
 const password = ref('')
 const isLoading = ref(false)
-const errorMessage = ref('')
+const toastMessage = ref('')
+const notificationType = ref('')
 
 const getUser = async()=> {
-  errorMessage.value = ''
+  toastMessage.value = ''
   isLoading.value = true
+  notificationType.value  = ''
 
   // Basic client-side validation
   if (!username.value || !password.value) {
-    errorMessage.value = 'Please enter both username and password'
+    toastMessage.value = 'Please enter both username and password'
     isLoading.value = false
+    notificationType.value = 'Error'
     return
   }
 
@@ -35,24 +39,43 @@ const getUser = async()=> {
 
     if (response.ok) {
       // Successful login
+      notificationType.value = 'Success'
+      toastMessage.value = "Logged in successfully"
       console.log(json);
+      setTimeout(() => {
+        notificationType.value = ''
+      }, 3000);
       // Redirect or update app state
     } else {
+      // Unsuccessful login
+      notificationType.value = 'Error'
       // Handle login error
-      errorMessage.value = json.message || 'Login failed'
+      toastMessage.value = json.message || 'Login failed'
+      setTimeout(() => {
+        notificationType.value = ''
+      }, 3000);
     }
 
   } catch (error) {
-    errorMessage.value = 'Network error. Please try again.'
+    notificationType.value = 'Error'
+    toastMessage.value = 'Network error. Please try again.'
     console.log(error + 'MEOW ERROR MEOW');
+    setTimeout(() => {
+      notificationType.value = ''
+    }, 3000);
   } finally {
     isLoading.value = false
+
   }
 }
-
 </script>
 
 <template>
+  <div v-if="notificationType">
+    <ToastComponent v-if="notificationType === 'Error'" :notification="notificationType" class="bg-red-50 text-red-700">{{toastMessage}}</ToastComponent>
+    <ToastComponent v-if="notificationType === 'Success'" :notification="notificationType" class="bg-green-50 text-green-700">{{toastMessage}}</ToastComponent>
+  </div>
+
 <main>
   <section>
     <h1>Log in to your account</h1>
@@ -66,8 +89,6 @@ const getUser = async()=> {
       <InputComponent v-model="password" required type="password" id="password" label="Password" name="password" class="border border-gray-300" :eyeIcon="true"/>
       <ButtonComponent :disabled="isLoading" class="bg-indigo-700 text-white" size="medium" @click.prevent="getUser">Submit</ButtonComponent>
     </form>
-    <p v-show="errorMessage" class="text-red-500">{{errorMessage}}</p>
-
     <span class="redirect">Don’t have an account? <a href="#" class="text-indigo-700">Sign up</a></span>
   </section>
   <section class="hero">
