@@ -33,7 +33,7 @@ const buttonClasses = computed(() => {
 </script>
 
 <template>
-  <button :class="buttonClasses" v-bind="$attrs">
+  <button :class="buttonClasses" v-bind="$attrs" type="submit">
     <span  v-if="!iconOnly" class="button__content">
       <span v-if="iconLeft" class="button__icon">
         <slot name="icon-left">
