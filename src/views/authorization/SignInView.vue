@@ -65,17 +65,17 @@ const getUser = async()=> {
     }, 3000);
   } finally {
     isLoading.value = false
-
   }
 }
 </script>
 
 <template>
-  <div v-if="notificationType">
-    <ToastComponent v-if="notificationType === 'Error'" :notification="notificationType" class="bg-red-50 text-red-700">{{toastMessage}}</ToastComponent>
-    <ToastComponent v-if="notificationType === 'Success'" :notification="notificationType" class="bg-green-50 text-green-700">{{toastMessage}}</ToastComponent>
-  </div>
-
+  <Transition>
+    <div v-if="notificationType" class="flex justify-center absolute min-w-full mt-8">
+      <ToastComponent v-if="notificationType === 'Error'" :notification="notificationType" class="bg-red-50 text-red-700">{{toastMessage}}</ToastComponent>
+      <ToastComponent v-if="notificationType === 'Success'" :notification="notificationType" class="bg-green-50 text-green-700">{{toastMessage}}</ToastComponent>
+    </div>
+  </Transition>
 <main>
   <section>
     <h1>Log in to your account</h1>
@@ -160,6 +160,16 @@ h1 {
   margin: 0 auto;
   font-size: 14px;
   line-height: 20px;
+}
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 
 </style>
