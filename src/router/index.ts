@@ -4,6 +4,7 @@ import TextAreaView from '@/views/TextAreaView.vue'
 import InputView from '@/views/InputView.vue'
 import SignInView from '@/views/authorization/SignInView.vue'
 import ToastView from '@/views/ToastView.vue'
+import RegisterView from '@/views/authorization/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,11 @@ const router = createRouter({
       path: '/signin',
       name: 'signin',
       component: SignInView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
     },
     {
       path: '/toast',

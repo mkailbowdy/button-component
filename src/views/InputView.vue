@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputComponent from '@/InputComponent.vue'
+import InputComponent from '@/components/InputComponent.vue'
 
 </script>
 
