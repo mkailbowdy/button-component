@@ -59,8 +59,8 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked::after {
   position: absolute;
   content: "";
-  width: 6px;
-  height: 10px;
+  width: 4px;
+  height: 8px;
   border: solid #ffffff;
   border-width: 0 2px 2px 0;
   top:50%;
