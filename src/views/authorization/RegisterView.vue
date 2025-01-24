@@ -4,6 +4,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 import { ref } from 'vue'
 import ToastComponent from '@/components/ToastComponent.vue'
 import {betweenMinMax, containsLowercase, containsNumber, containsUppercase, containsSpecialChars} from '@/helpers/stringValidation.ts'
+import CheckboxComponent from '@/components/CheckboxComponent.vue'
 
 const email = ref('')
 const password = ref('')
@@ -132,15 +133,16 @@ const getUser = async()=> {
           </span>
           One special character (e.g., ! @ # $ % ^ & *)</li>
       </ul>
-      <div class="flex gap-4">
-        <input type="checkbox"><span>I agree with CodePulse <a href="#">Terms of Service</a></span>
+      <div class="flex items-center gap-3">
+        <CheckboxComponent></CheckboxComponent>
+        <span>I agree with CodePulse <a href="#">Terms of Service</a></span>
       </div>
       <ButtonComponent :disabled="isLoading" class="bg-indigo-700 text-white" size="medium" >Create account</ButtonComponent>
     </form>
     <span class="redirect">Already have an account? <a href="/signin" class="text-indigo-700">Sign in</a></span>
   </section>
   <section class="hero">
-    <img src="../../assets/sign-up.jpg" alt="VR guy having a blast."/>
+    <img src="../../assets/sign-up.jpg" alt="VR guy having a blast." class="-scale-x-100"/>
   </section>
 </main>
 </template>
