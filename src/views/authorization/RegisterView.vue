@@ -3,6 +3,7 @@ import InputComponent from '@/components/InputComponent.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { ref } from 'vue'
 import ToastComponent from '@/components/ToastComponent.vue'
+import {betweenMinMax, containsLowercase, containsNumber, containsUppercase, containsSpecialChars} from '@/helpers/stringValidation.ts'
 
 const email = ref('')
 const password = ref('')
@@ -81,15 +82,60 @@ const getUser = async()=> {
 <main>
   <section>
     <h1>Create your account</h1>
-    <form>
+    <form @submit.prevent="getUser">
 <!--      <InputComponent required type="email" id="email" label="Email" name="email" class="border border-gray-300" placeholder="email@gmail.com" customIcon>-->
 <!--        <template #custom-icon>-->
 <!--          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"></path></svg>-->
 <!--        </template>-->
 <!--      </InputComponent>-->
-      <InputComponent v-model="email" type="email" id="email" label="Email" name="email" class="border border-gray-300"/>
-      <InputComponent v-model="password" required type="password" id="password" label="Password" name="password" class="border border-gray-300" :eyeIcon="true"/>
-      <ButtonComponent :disabled="isLoading" class="bg-indigo-700 text-white" size="medium" @click.prevent="getUser">Create account</ButtonComponent>
+      <InputComponent v-model="email" type="email" id="email" label="Email" name="email" class="border border-gray-300" required/>
+      <InputComponent v-model="password" type="password" minlength="8" maxlength="64" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,64}$" id="password" label="Password" name="password" class="border border-gray-300" :eyeIcon="true" required/>
+      <ul>
+        <li class="flex items-center">
+          <span v-if="betweenMinMax(password, 8, 64)" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-green-700"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          <span v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-neutral-400"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          8 - 64 characters</li>
+        <li>
+          <span v-if="containsUppercase(password)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-green-700"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          <span v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-neutral-400"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          One uppercase letter</li>
+        <li>
+          <span v-if="containsLowercase(password)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-green-700"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          <span v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-neutral-400"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          One lowercase letter</li>
+        <li>
+          <span v-if="containsNumber(password)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-green-700"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          <span v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-neutral-400"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          One number</li>
+        <li>
+          <span v-if="containsSpecialChars(password)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-green-700"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          <span v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="fill-neutral-400"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"></path></svg>
+          </span>
+          One special character (e.g., ! @ # $ % ^ & *)</li>
+      </ul>
+      <div class="flex gap-4">
+        <input type="checkbox"><span>I agree with CodePulse <a href="#">Terms of Service</a></span>
+      </div>
+      <ButtonComponent :disabled="isLoading" class="bg-indigo-700 text-white" size="medium" >Create account</ButtonComponent>
     </form>
     <span class="redirect">Already have an account? <a href="/signin" class="text-indigo-700">Sign in</a></span>
   </section>
@@ -156,6 +202,11 @@ h1 {
   font-size: 30px;
   line-height: 36px;
   color: #171717;
+}
+
+li {
+  display: flex;
+  gap: 12px;
 }
 
 .redirect {
