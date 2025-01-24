@@ -134,7 +134,7 @@ const getUser = async()=> {
           One special character (e.g., ! @ # $ % ^ & *)</li>
       </ul>
       <div class="flex items-center gap-3">
-        <CheckboxComponent></CheckboxComponent>
+        <CheckboxComponent class="checked:bg-indigo-500 indeterminate:bg-indigo-500" ></CheckboxComponent>
         <span>I agree with CodePulse <a href="#">Terms of Service</a></span>
       </div>
       <ButtonComponent :disabled="isLoading" class="bg-indigo-700 text-white" size="medium" >Create account</ButtonComponent>

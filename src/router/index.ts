@@ -5,6 +5,7 @@ import InputView from '@/views/InputView.vue'
 import SignInView from '@/views/authorization/SignInView.vue'
 import ToastView from '@/views/ToastView.vue'
 import RegisterView from '@/views/authorization/RegisterView.vue'
+import CheckboxView from '@/views/CheckboxView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,11 @@ const router = createRouter({
       path: '/toast',
       name: 'toast',
       component: ToastView,
+    },
+    {
+      path: '/checkbox',
+      name: 'checkbox',
+      component: CheckboxView,
     }
   ],
 })
